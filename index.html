@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warung Sendy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#f5f7f5;color:#222}
+header{position:sticky;top:0;z-index:10;background:#092d22;color:white;padding:15px 6%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 3px 15px #0003}
+.logo{font-size:22px;font-weight:bold}.logo span{color:#ffd54f}
+.cart-btn{border:0;background:#ffd54f;padding:11px 17px;border-radius:25px;font-weight:bold;cursor:pointer}
+.hero{min-height:70vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:50px 20px;background:linear-gradient(#003d2a99,#003d2acc),url("seafood-air-tawar.jpg") center/cover;color:white}
+.hero h1{font-size:clamp(40px,8vw,70px);line-height:1.05;margin-bottom:18px}
+.hero p{font-size:18px;margin-bottom:28px}
+.hero a{display:inline-block;background:#ffd54f;color:#222;text-decoration:none;padding:14px 25px;border-radius:30px;font-weight:bold}
+.section{max-width:1100px;margin:auto;padding:60px 20px}
+.title{text-align:center;margin-bottom:35px}.title h2{font-size:34px;color:#086246}.title p{color:#777}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 7px 25px #00000015;transition:.25s}
+.card:hover{transform:translateY(-6px)}
+.card img{width:100%;height:230px;object-fit:cover;display:block;background:#ddd}
+.card-body{padding:20px}.badge{display:inline-block;background:#e4f5ed;color:#076b48;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold;margin-bottom:9px}
+.card h3{font-size:22px;margin-bottom:7px}.card p{color:#666;min-height:48px}
+.price{font-size:22px;font-weight:bold;color:#086246;margin:15px 0}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.actions button{border:0;padding:12px 7px;border-radius:10px;font-weight:bold;cursor:pointer}
+.buy{background:#25d366;color:white}.add{background:#086246;color:white}
+.info{background:#e8f6ef;border-radius:22px;text-align:center;padding:32px}
+footer{background:#092d22;color:white;text-align:center;padding:30px;margin-top:20px}footer strong{color:#ffd54f}
+#modal{display:none;position:fixed;inset:0;z-index:100;background:#0009;padding:20px}
+.box{background:white;width:min(520px,100%);max-height:90vh;overflow:auto;margin:3vh auto;border-radius:20px;padding:23px}
+.head{display:flex;justify-content:space-between;align-items:center}.close{font-size:30px;cursor:pointer}
+.item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #ddd}
+.qty button{width:30px;height:30px;border:0;border-radius:7px;background:#eee;font-weight:bold;cursor:pointer}
+.total{font-size:21px;font-weight:bold;margin:20px 0}
+.checkout{width:100%;padding:14px;border:0;border-radius:10px;background:#25d366;color:white;font-weight:bold;cursor:pointer}
+.empty{text-align:center;color:#777;padding:25px}
+@media(max-width:800px){.products{grid-template-columns:1fr}.hero{min-height:65vh}.actions{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">WARUNG <span>SENDY</span></div>
+<button class="cart-btn" onclick="openCart()">🛒 Keranjang (<span id="count">0</span>)</button>
+</header>
+
+<section class="hero">
+<div>
+<h1>Rasa Enak,<br>Harga Bersahabat!</h1>
+<p>Seafood air tawar, ikan bakar, dan cincau segar siap dinikmati.</p>
+<a href="#menu">Lihat Menu ↓</a>
+</div>
+</section>
+
+<section class="section" id="menu">
+<div class="title"><h2>🍽️ Menu Pilihan</h2><p>Pilih makanan favoritmu</p></div>
+<div class="products">
+
+<article class="card">
+<img src="seafood-air-tawar.jpg" alt="Seafood Air Tawar">
+<div class="card-body">
+<span class="badge">MENU 01</span>
+<h3>Seafood Air Tawar</h3>
+<p>Olahan seafood air tawar dengan bumbu pilihan yang gurih dan nikmat.</p>
+<div class="price">Rp25.000</div>
+<div class="actions">
+<button class="buy" onclick="buyNow('Seafood Air Tawar',25000)">⚡ Beli Langsung</button>
+<button class="add" onclick="add('Seafood Air Tawar',25000)">🛒 Keranjang</button>
+</div></div></article>
+
+<article class="card">
+<img src="ikan-bakar.jpg" alt="Ikan Bakar">
+<div class="card-body">
+<span class="badge">MENU 02</span>
+<h3>Ikan Bakar</h3>
+<p>Ikan bakar dengan bumbu khas dan aroma bakaran yang menggugah selera.</p>
+<div class="price">Rp30.000</div>
+<div class="actions">
+<button class="buy" onclick="buyNow('Ikan Bakar',30000)">⚡ Beli Langsung</button>
+<button class="add" onclick="add('Ikan Bakar',30000)">🛒 Keranjang</button>
+</div></div></article>
+
+<article class="card">
+<img src="cincau.jpg" alt="Cincau">
+<div class="card-body">
+<span class="badge">MENU 03</span>
+<h3>Cincau Segar</h3>
+<p>Cincau segar yang cocok untuk melepas dahaga setelah makan.</p>
+<div class="price">Rp10.000</div>
+<div class="actions">
+<button class="buy" onclick="buyNow('Cincau Segar',10000)">⚡ Beli Langsung</button>
+<button class="add" onclick="add('Cincau Segar',10000)">🛒 Keranjang</button>
+</div></div></article>
+
+</div></section>
+
+<section class="section"><div class="info"><h2>📦 Cara Pesan</h2><p>Pilih <b>Beli Langsung</b> untuk satu menu, atau gunakan <b>Keranjang</b> untuk membeli beberapa menu sekaligus.</p></div></section>
+
+<footer><p><strong>WARUNG SENDY</strong></p><p>Pembuat: Sendy</p><p>No. Contact: 083830492946</p><p>© 2026 Warung Sendy</p></footer>
+
+<div id="modal" onclick="outside(event)">
+<div class="box">
+<div class="head"><h2>🛒 Keranjang</h2><span class="close" onclick="closeCart()">×</span></div>
+<div id="items"></div>
+<div class="total">Total: <span id="total">Rp0</span></div>
+<button class="checkout" onclick="checkout()">📱 Checkout via WhatsApp</button>
+</div></div>
+
+<script>
+let cart=[];
+const phone="6283830492946";
+function rp(n){return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n)}
+function add(name,price){let x=cart.find(i=>i.name===name);if(x)x.qty++;else cart.push({name,price,qty:1});update();openCart()}
+function buyNow(name,price){let m="Halo Sendy, saya mau Beli Langsung:%0A%0A- "+name+" x1 = "+rp(price)+"%0A%0ATotal: "+rp(price)+"%0A%0ANama:%0AAlamat:";window.open("https://wa.me/"+phone+"?text="+m,"_blank")}
+function qty(i,n){cart[i].qty+=n;if(cart[i].qty<=0)cart.splice(i,1);update()}
+function update(){
+document.getElementById("count").textContent=cart.reduce((s,x)=>s+x.qty,0);
+let box=document.getElementById("items");
+if(!cart.length)box.innerHTML='<div class="empty">Keranjang masih kosong.</div>';
+else box.innerHTML=cart.map((x,i)=>'<div class="item"><div><b>'+x.name+'</b><br>'+rp(x.price)+' × '+x.qty+'</div><div class="qty"><button onclick="qty('+i+',-1)">−</button> '+x.qty+' <button onclick="qty('+i+',1)">+</button></div></div>').join("");
+let t=cart.reduce((s,x)=>s+x.price*x.qty,0);document.getElementById("total").textContent=rp(t)
+}
+function openCart(){document.getElementById("modal").style.display="block";update()}
+function closeCart(){document.getElementById("modal").style.display="none"}
+function outside(e){if(e.target.id==="modal")closeCart()}
+function checkout(){
+if(!cart.length){alert("Keranjang masih kosong.");return}
+let m="Halo Sendy, saya mau pesan:%0A%0A",t=0;
+cart.forEach(x=>{let s=x.price*x.qty;t+=s;m+="- "+x.name+" x"+x.qty+" = "+rp(s)+"%0A"});
+m+="%0ATotal: "+rp(t)+"%0A%0ANama:%0AAlamat:";
+window.open("https://wa.me/"+phone+"?text="+m,"_blank")
+}
+update();
+</script>
+</body>
+</html>
